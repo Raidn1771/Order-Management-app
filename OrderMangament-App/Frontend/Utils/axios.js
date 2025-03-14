@@ -12,8 +12,8 @@ API.interceptors.request.use(req => {
   return req;
 });
 
-export const login = data => API.post('/users/login', data);
-export const signup = data => API.post('/users/signup', data);
+export const login = data => API.post('/user/login', data);
+export const signup = data => API.post('/user/signup', data);
 export const getOrders = (page = 1, limit = 5) =>
   API.get(`/orders?page=${page}&limit=${limit}`);
 export const createOrder = data => API.post('/orders', data);
