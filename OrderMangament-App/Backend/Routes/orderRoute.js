@@ -5,10 +5,10 @@ const checktoken = require('../Middlewares/check-token');
 
 router.post('/', checktoken, async (req, res) => {
   try {
-    const { items, totalPrice } = req.body;
-    const order = new Order({ items, totalPrice });
+    const { items, totalPrice, status = 'Pending' } = req.body;
+    const order = new Order({ items, totalPrice, status }); // Ensure status defaults to 'Pending'
     await order.save();
-    res.status(201).json(order);
+    res.status(201).json({ order }); // Wrap the order object inside { order }
   } catch (err) {
     res
       .status(500)
