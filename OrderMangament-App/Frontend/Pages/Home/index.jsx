@@ -10,17 +10,27 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navbar from '../../Components/Navbar';
 import './Home.css';
 
+const statusColors = {
+  Pending: '#FFA500', // Orange
+  Shipped: '#1E90FF', // Dodger Blue
+  Delivered: '#32CD32', // Lime Green
+};
+
 const Home = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [newOrder, setNewOrder] = useState({ items: '', totalPrice: 0 });
+  const [newOrder, setNewOrder] = useState({
+    items: '',
+    totalPrice: '',
+    status: 'Pending',
+  });
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const { data } = await getOrders();
-        setOrders(data.orders);
+        setOrders(data.orders || []);
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to fetch orders');
       } finally {
@@ -32,17 +42,29 @@ const Home = () => {
 
   const handleCreateOrder = async () => {
     try {
+      const itemsArray = newOrder.items.split(',').map(item => {
+        const [name, quantity] = item.split(':');
+        return {
+          name: name.trim(),
+          quantity: parseInt(quantity.trim(), 10) || 1,
+        };
+      });
+
       const orderData = {
-        items: newOrder.items
-          .split(',')
-          .map(name => ({ name: name.trim(), quantity: 1 })),
-        totalPrice: newOrder.totalPrice,
-        status: 'Pending',
+        items: itemsArray,
+        totalPrice: parseFloat(newOrder.totalPrice),
+        status: newOrder.status,
       };
+
       const { data } = await createOrder(orderData);
-      setOrders([...orders, data.order]);
-      setNewOrder({ items: '', totalPrice: 0 });
-      toast.success('Order created successfully!');
+
+      if (data.order) {
+        setOrders(prevOrders => [...prevOrders, data.order]);
+        setNewOrder({ items: '', totalPrice: '', status: 'Pending' });
+        toast.success('Order created successfully!');
+      } else {
+        throw new Error('Invalid order data returned from server');
+      }
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to create order');
     }
@@ -77,16 +99,18 @@ const Home = () => {
   }
 
   return (
-    <Navbar>
-      <div className="order-container">
-        <h2>Orders</h2>
-        {error && <p className="error">{error}</p>}
+    <>
+      <Navbar />
+      <div className="home-container">
+        <h2 className="page-title">Manage Orders</h2>
 
-        <div className="create-order">
+        {error && <p className="error-message">{error}</p>}
+
+        <div className="create-order-form">
           <h3>Create New Order</h3>
           <input
             type="text"
-            placeholder="Items (comma-separated)"
+            placeholder="Items (name:quantity, comma-separated)"
             value={newOrder.items}
             onChange={e => setNewOrder({ ...newOrder, items: e.target.value })}
           />
@@ -98,6 +122,14 @@ const Home = () => {
               setNewOrder({ ...newOrder, totalPrice: e.target.value })
             }
           />
+          <select
+            value={newOrder.status}
+            onChange={e => setNewOrder({ ...newOrder, status: e.target.value })}
+          >
+            <option value="Pending">Pending</option>
+            <option value="Shipped">Shipped</option>
+            <option value="Delivered">Delivered</option>
+          </select>
           <button onClick={handleCreateOrder}>Create Order</button>
         </div>
 
@@ -108,11 +140,23 @@ const Home = () => {
               className={`order-card fade-in delay-${index} ${
                 order.status === 'Pending' ? 'pending' : ''
               }`}
+              style={{
+                borderLeft: `5px solid ${
+                  statusColors[order?.status?.trim() || 'Pending']
+                }`,
+              }}
             >
-              <h3>Order ID: {order._id}</h3>
-              <p>Total Price: ${order.totalPrice}</p>
+              <h3>Order ID: {order.orderId}</h3>
+              <p>Total Price: ${order.totalPrice.toFixed(2)}</p>
               <p>Status: {order.status}</p>
-              <p>Items: {order.items.map(item => item.name).join(', ')}</p>
+              <p>Items:</p>
+              <ul>
+                {order.items.map((item, i) => (
+                  <li key={i}>
+                    {item.name} (x{item.quantity})
+                  </li>
+                ))}
+              </ul>
 
               <div className="order-actions">
                 <button onClick={() => handleUpdateOrder(order._id, 'Shipped')}>
@@ -134,7 +178,7 @@ const Home = () => {
           ))}
         </div>
       </div>
-    </Navbar>
+    </>
   );
 };
 
