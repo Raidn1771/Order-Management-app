@@ -71,10 +71,14 @@ const Home = () => {
     }
   };
 
-  const handleUpdateOrder = async (id, status) => {
+ const handleUpdateOrder = async (orderId, status) => {
     try {
-      const { data } = await updateOrder(id, { status });
-      setOrders(orders.map(order => (order._id === id ? data.order : order)));
+      const updatedData = { status };
+      const { data } = await updateOrder(orderId, updatedData);
+
+      setOrders(
+        orders.map(order => (order.orderId === orderId ? data.order : order))
+      );
       toast.info(`Order marked as ${status}`);
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to update order');
@@ -160,11 +164,11 @@ const Home = () => {
               </ul>
 
               <div className="order-actions">
-                <button onClick={() => handleUpdateOrder(order._id, 'Shipped')}>
+                <button onClick={() => handleUpdateOrder(order.orderID, 'Shipped')}>
                   Mark as Shipped
                 </button>
                 <button
-                  onClick={() => handleUpdateOrder(order._id, 'Delivered')}
+                  onClick={() => handleUpdateOrder(order.orderID, 'Delivered')}
                 >
                   Mark as Delivered
                 </button>
