@@ -1,80 +1,158 @@
 /* General styling */
-.order-container {
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f8;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.home-container {
   padding: 2rem;
   background-color: #f4f4f4;
   min-height: 100vh;
+  animation: fadeIn 1s ease-in;
 }
 
-h2 {
+.page-title {
   text-align: center;
   margin-bottom: 2rem;
-  color: #333;
+  color: #1976d2;
+  font-size: 2.5rem;
+  font-weight: bold;
 }
 
-.error {
-  color: red;
-  text-align: center;
+/* Create Order Form */
+.create-order-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: slideInUp 0.7s ease-out;
+}
+
+.create-order-form h3 {
+  font-size: 1.8rem;
+  color: #1976d2;
   margin-bottom: 1rem;
 }
 
-/* Order grid */
-.order-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-}
-
-/* Card design */
-.order-card {
-  padding: 1.5rem;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeIn 0.5s ease-in forwards;
+.create-order-form input,
+.create-order-form select,
+.create-order-form button {
+  padding: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
   transition: all 0.3s ease;
 }
 
-/* Hover effect */
+.create-order-form input:focus,
+.create-order-form select:focus {
+  border-color: #1976d2;
+  outline: none;
+  box-shadow: 0 0 8px rgba(25, 118, 210, 0.3);
+}
+
+.create-order-form button {
+  background-color: #1976d2;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.create-order-form button:hover {
+  background-color: #155a8a;
+  transform: translateY(-3px);
+}
+
+/* Order Grid */
+.order-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 2.5rem;
+  animation: fadeIn 1s ease-in;
+}
+
+/* Order Card */
+.order-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border-left: 6px solid #1976d2;
+  animation: slideInUp 0.7s ease-out;
+}
+
 .order-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
 }
 
-/* Glowing effect for pending orders */
+.order-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.order-card p {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+
+/* Status Color Borders */
 .order-card.pending {
-  border: 2px solid #ffa500; /* Orange glow for pending */
-  box-shadow: 0 0 15px rgba(255, 165, 0, 0.8);
+  border-left-color: #ffa500; /* Orange */
 }
 
-/* Fade-in animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.order-card.shipped {
+  border-left-color: #1e90ff; /* Blue */
 }
 
-/* Delays for staggered animations */
-.delay-0 {
-  animation-delay: 0.1s;
+.order-card.delivered {
+  border-left-color: #32cd32; /* Green */
 }
-.delay-1 {
-  animation-delay: 0.2s;
+
+.order-card.cancelled {
+  border-left-color: #ff6347; /* Red */
 }
-.delay-2 {
-  animation-delay: 0.3s;
+
+/* Order Actions */
+.order-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
-.delay-3 {
-  animation-delay: 0.4s;
+
+.order-actions button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
-.delay-4 {
-  animation-delay: 0.5s;
+
+.order-actions button:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+.delete-btn {
+  background-color: #ff6347;
+  color: white;
+}
+
+.status-btn {
+  background-color: #1976d2;
+  color: white;
 }
 
 /* Loader */
@@ -82,65 +160,52 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 50vh;
 }
 
 .loader {
-  border: 6px solid #f3f3f3;
+  width: 60px;
+  height: 60px;
+  border: 6px solid #ddd;
   border-top: 6px solid #1976d2;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
   animation: spin 1s linear infinite;
 }
 
+/* Animations */
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
   to {
     transform: rotate(360deg);
   }
 }
 
-/* Custom Toast styles */
-.custom-toast {
-  font-family: 'Arial', sans-serif;
-  font-size: 1rem;
-  padding: 12px 20px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  color: #fff;
-}
-
-.custom-toast.success {
-  background: linear-gradient(135deg, #4caf50, #2e7d32);
-}
-
-.custom-toast.error {
-  background: linear-gradient(135deg, #f44336, #c62828);
-}
-
-.custom-toast.info {
-  background: linear-gradient(135deg, #2196f3, #1976d2);
-}
-
-.custom-toast.warning {
-  background: linear-gradient(135deg, #ff9800, #f57c00);
-}
-
-/* Toast animation */
-@keyframes slideIn {
+@keyframes fadeIn {
   from {
-    transform: translateX(100%);
+    opacity: 0;
+    transform: translateY(-20px);
   }
   to {
-    transform: translateX(0);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.Toastify__toast {
-  animation: slideIn 0.5s ease;
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Error Message */
+.error-message {
+  text-align: center;
+  color: #ff6347;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  font-weight: bold;
 }
