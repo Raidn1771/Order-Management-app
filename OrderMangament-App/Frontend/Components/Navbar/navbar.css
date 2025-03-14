@@ -1,0 +1,26 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #1976d2;
+  color: white;
+}
+
+h1 {
+  margin: 0;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background-color: white;
+  color: #1976d2;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1565c0;
+  color: white;
+}

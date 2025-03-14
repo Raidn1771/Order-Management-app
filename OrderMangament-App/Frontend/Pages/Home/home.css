@@ -1,0 +1,146 @@
+/* General styling */
+.order-container {
+  padding: 2rem;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Order grid */
+.order-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+/* Card design */
+.order-card {
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 0.5s ease-in forwards;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.order-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Glowing effect for pending orders */
+.order-card.pending {
+  border: 2px solid #ffa500; /* Orange glow for pending */
+  box-shadow: 0 0 15px rgba(255, 165, 0, 0.8);
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Delays for staggered animations */
+.delay-0 {
+  animation-delay: 0.1s;
+}
+.delay-1 {
+  animation-delay: 0.2s;
+}
+.delay-2 {
+  animation-delay: 0.3s;
+}
+.delay-3 {
+  animation-delay: 0.4s;
+}
+.delay-4 {
+  animation-delay: 0.5s;
+}
+
+/* Loader */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #1976d2;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Custom Toast styles */
+.custom-toast {
+  font-family: 'Arial', sans-serif;
+  font-size: 1rem;
+  padding: 12px 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  color: #fff;
+}
+
+.custom-toast.success {
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+}
+
+.custom-toast.error {
+  background: linear-gradient(135deg, #f44336, #c62828);
+}
+
+.custom-toast.info {
+  background: linear-gradient(135deg, #2196f3, #1976d2);
+}
+
+.custom-toast.warning {
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+}
+
+/* Toast animation */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.Toastify__toast {
+  animation: slideIn 0.5s ease;
+}

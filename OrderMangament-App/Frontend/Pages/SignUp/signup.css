@@ -1,0 +1,85 @@
+/* Signup Container */
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #4caf50, #66bb6a);
+}
+
+/* Signup Card */
+.signup-card {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+  width: 400px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.signup-card h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #4caf50;
+  font-size: 1.8rem;
+}
+
+/* Form Styling */
+.signup-card form {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-card input {
+  margin-bottom: 1.2rem;
+  padding: 0.9rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.signup-card button {
+  background: #4caf50;
+  color: white;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.signup-card button:hover {
+  background: #388e3c;
+}
+
+/* Login Link */
+.login-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.login-link span {
+  color: #4caf50;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.login-link span:hover {
+  color: #388e3c;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
