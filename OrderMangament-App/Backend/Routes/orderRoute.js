@@ -52,20 +52,23 @@ router.get('/', checktoken, async (req, res) => {
 router.put('/:orderId', checktoken, async (req, res) => {
   try {
     const { items, totalPrice, status } = req.body;
-    const order = await Order.findOneAndUpdate(
+    const updatedOrder = await Order.findOneAndUpdate(
       { orderId: req.params.orderId },
       { items, totalPrice, status },
       { new: true }
     );
-    if (!order) return res.status(404).json({ message: 'Order not found' });
-    res.status(200).json(order);
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    res.status(200).json({ order: updatedOrder });
   } catch (err) {
     res
       .status(500)
       .json({ message: 'Failed to update order', error: err.message });
   }
 });
-
 router.delete('/:orderId', checktoken, async (req, res) => {
   try {
     const order = await Order.findOneAndDelete({ orderId: req.params.orderId });
