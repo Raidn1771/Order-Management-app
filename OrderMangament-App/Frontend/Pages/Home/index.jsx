@@ -53,14 +53,15 @@ const Home = () => {
       const orderData = {
         items: itemsArray,
         totalPrice: parseFloat(newOrder.totalPrice),
-        status: newOrder.status,
+        status: newOrder.status || 'Pending',
       };
 
-      const { data } = await createOrder(orderData);
+      const { data } = await createOrder(orderData); // Call the API
 
-      if (data.order) {
-        setOrders(prevOrders => [...prevOrders, data.order]);
-        setNewOrder({ items: '', totalPrice: '', status: 'Pending' });
+      if (data && data.order) {
+        // Check for the correct structure
+        setOrders(prevOrders => [...prevOrders, data.order]); // Add new order to the state
+        setNewOrder({ items: '', totalPrice: '', status: 'Pending' }); // Reset form
         toast.success('Order created successfully!');
       } else {
         throw new Error('Invalid order data returned from server');
